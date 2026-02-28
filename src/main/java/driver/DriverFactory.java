@@ -78,6 +78,9 @@ public class DriverFactory {
 		
 		//Open in maximized
 		options.addArguments("--start-maximized");
+		options.addArguments("--no-sandbox");
+		options.addArguments("--disable-dev-shm-usage");
+		options.addArguments("--disable-gpu");
 		
         // No popup notifications
 		options.addArguments("--disable-notifications");
