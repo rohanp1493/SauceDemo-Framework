@@ -77,10 +77,7 @@ public class DriverFactory {
 		ChromeOptions options = new ChromeOptions();
 		
 		//Open in maximized
-		options.addArguments("--start-maximized");
-		options.addArguments("--no-sandbox");
-		options.addArguments("--disable-dev-shm-usage");
-		options.addArguments("--disable-gpu");
+		options.addArguments("--window-size=1920,1080");
 		
         // No popup notifications
 		options.addArguments("--disable-notifications");
@@ -119,6 +116,10 @@ public class DriverFactory {
 			options.addArguments("--disable-dev-shm-usage");
 			options.addArguments("--disable-gpu");
 			options.addArguments("--disable-notifications");
+			options.addArguments("--window-size=1920,1080");
+		} else {
+			//local mode
+			options.addArguments("--start-maximized");
 		}
 		return new ChromeDriver(options);
 	}
