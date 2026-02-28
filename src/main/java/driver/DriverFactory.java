@@ -119,7 +119,6 @@ public class DriverFactory {
 			options.addArguments("--disable-dev-shm-usage");
 			options.addArguments("--disable-gpu");
 			options.addArguments("--disable-notifications");
-			options.setBinary("/usr/bin/google-chrome");
 		}
 		return new ChromeDriver(options);
 	}
