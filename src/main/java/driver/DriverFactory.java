@@ -118,6 +118,8 @@ public class DriverFactory {
 			options.addArguments("--no-sandbox");
 			options.addArguments("--disable-dev-shm-usage");
 			options.addArguments("--disable-gpu");
+			options.addArguments("--disable-notifications");
+			options.setBinary("/usr/bin/google-chrome");
 		}
 		return new ChromeDriver(options);
 	}
@@ -126,6 +128,7 @@ public class DriverFactory {
 		FirefoxOptions options = new FirefoxOptions();
         if (headless) {
             options.addArguments("--headless");
+            options.addArguments("--window-size=1920,1080");
         }
 		return new FirefoxDriver(options);
 	}
