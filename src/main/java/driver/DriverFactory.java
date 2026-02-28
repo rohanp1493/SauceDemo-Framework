@@ -114,6 +114,7 @@ public class DriverFactory {
 			options.addArguments("--headless=new");
 			options.addArguments("--no-sandbox");
 			options.addArguments("--disable-dev-shm-usage");
+			options.addArguments("--disable-gpu");
 		}
 		return new ChromeDriver(options);
 	}
