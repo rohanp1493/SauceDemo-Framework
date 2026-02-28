@@ -116,7 +116,7 @@ public class DriverFactory {
 			options.addArguments("--disable-dev-shm-usage");
 			options.addArguments("--disable-gpu");
 			options.addArguments("--disable-notifications");
-			options.addArguments("--start-maximized");
+			options.addArguments("--window-size=1920,1080");
 		} else {
 			//local mode
 			options.addArguments("--window-size=1920,1080");		}
