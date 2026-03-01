@@ -41,6 +41,11 @@ public class ConfigReader {
 		
 		//Method to get value from config file based on Key
 		public String get(String key) {
+			//Check command line first
+			String systemValue = System.getProperty(key);
+			if(systemValue !=null && !systemValue.isEmpty()) {
+				return systemValue.trim();
+			}
 			String value = properties.getProperty(key);
 			if(value==null) {
 				throw new RuntimeException(
