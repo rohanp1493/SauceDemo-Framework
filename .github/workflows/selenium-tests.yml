@@ -50,7 +50,7 @@ jobs:
       - name: Run Selenium Tests
        	run: mvn clean test -Dheadless=true
         env:
-			AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
 
       # Step 6 — Upload Allure results
       # Even if tests fail — still upload results
