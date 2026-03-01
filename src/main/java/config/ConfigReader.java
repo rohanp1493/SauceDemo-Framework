@@ -1,5 +1,6 @@
 package config;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -16,6 +17,8 @@ public class ConfigReader {
 	private static final String CONFIG_PATH=
 			"src/test/resources/config.properties";
 	
+	private static final String SECRET_PATH =
+	        "src/test/resources/secret.properties";
 	//This run when ConfigReader is created
 	//It opens the file and load everything into memory
 	//Constructor created
@@ -30,7 +33,31 @@ public class ConfigReader {
 					"Could not find config.properties at:"+ CONFIG_PATH);
 			
 		}
-	}		
+		
+		// Load secret file if it exists
+        // On GitHub this file won't exist
+        // That's OK — secrets come from environment
+        File secretFile = new File(SECRET_PATH);
+        if (secretFile.exists()) {
+            try {
+                FileInputStream secret =
+                    new FileInputStream(SECRET_PATH);
+                properties.load(secret);
+                System.out.println("Secrets loaded");
+            } catch (IOException e) {
+                System.out.println(
+                    "Could not load secrets: "
+                    + e.getMessage());
+            }
+        } else {
+            System.out.println(
+                "No secret.properties found "
+                + "- using environment variables");
+        }
+    }
+
+	
+	
 		//Create a method to access Config Reader
 		public static ConfigReader getInstance() {
 			if(instance==null) {
@@ -46,6 +73,18 @@ public class ConfigReader {
 			if(systemValue !=null && !systemValue.isEmpty()) {
 				return systemValue.trim();
 			}
+			
+
+	        // Priority 2: Environment variable
+	        // GitHub Actions passes secrets this way
+	        // "ai.api.key" becomes "AI_API_KEY"
+	        String envKey = key.toUpperCase()
+	            .replace(".", "_");
+	        String envValue = System.getenv(envKey);
+	        if (envValue != null && !envValue.isEmpty()) {
+	            return envValue.trim();
+	        }
+		    
 			String value = properties.getProperty(key);
 			if(value==null) {
 				throw new RuntimeException(
