@@ -1,3 +1,22 @@
+Skip to content
+rohanp1493
+SauceDemo-Framework
+Repository navigation
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+.github/workflows/selenium-tests.yml
+fix the yaml file #14
+All jobs
+Run details
+Workflow file for this run
+.github/workflows/selenium-tests.yml at 3124640
 # Name of this workflow
 name: Selenium Tests
 
@@ -48,6 +67,14 @@ jobs:
       # Step 5 — Run your tests!
       # headless=true because server has no screen
       - name: Run Selenium Tests
+ Check failure on line 50 in .github/workflows/selenium-tests.yml
+
+
+GitHub Actions
+/ .github/workflows/selenium-tests.yml
+Invalid workflow file
+
+You have an error in your yaml syntax on line 50
        	run: mvn clean test -Dheadless=true
         env:
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
