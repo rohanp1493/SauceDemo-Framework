@@ -1,22 +1,3 @@
-Skip to content
-rohanp1493
-SauceDemo-Framework
-Repository navigation
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-.github/workflows/selenium-tests.yml
-fix the yaml file #14
-All jobs
-Run details
-Workflow file for this run
-.github/workflows/selenium-tests.yml at 3124640
 # Name of this workflow
 name: Selenium Tests
 
