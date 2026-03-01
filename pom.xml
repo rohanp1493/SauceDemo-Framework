@@ -3,6 +3,11 @@
   <groupId>com.sacuedemo.app</groupId>
   <artifactId>SauceDemo-Framework</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties>
   <dependencies>
    <!-- Source: https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 <dependency>
@@ -31,6 +36,21 @@
     <version>2.33.0</version>
     <scope>compile</scope>
 </dependency>
+<dependency>
+    <groupId>com.squareup.okhttp3</groupId>
+    <artifactId>okhttp</artifactId>
+    <version>4.12.0</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.16.1</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>5.2.5</version>
+</dependency>
   </dependencies>
   <build>
   <plugins>
@@ -44,9 +64,9 @@
                 src/test/resources/testng.xml
             </suiteXmlFile>
         </suiteXmlFiles>
-        <systemPropertyVariables>
+        <!--systemPropertyVariables>
             <headless>${headless}</headless>
-        </systemPropertyVariables>
+        </systemPropertyVariables-->
     </configuration>
 </plugin></plugins>
   </build>

@@ -25,7 +25,8 @@ public class DriverFactory {
 		String browser = config.get("browser").toLowerCase();
 		
 		//Read headless setting from config.properties
-		boolean headless = config.getBoolean("headless");
+		boolean headless = Boolean.parseBoolean(
+			    config.getOrDefault("headless", "false"));
 		
 		System.out.println("Opening Browser: " + browser);
 		

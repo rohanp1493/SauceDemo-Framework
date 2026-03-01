@@ -22,6 +22,7 @@ import io.qameta.allure.Step;
 import io.qameta.allure.Story;
 import pages.InventoryPage;
 import pages.LoginPage;
+import utils.WaitUtils;
 
 //Epic = top level group(like a module)
 @Epic("SauceDemo Application")
@@ -89,10 +90,16 @@ public class LoginTest extends BaseTest{
 	@Severity(SeverityLevel.CRITICAL)
 	public void validLoginTest() {
 		System.out.println("Running: validLoginTest");
+		/*System.out.println("Username: " 
+		        + config.get("app.username"));
+		    System.out.println("UserPassword: " 
+		        + config.get("app.password"));
+		    System.out.println("URL: " 
+		        + config.get("base.url"));*/
 		
-		loginPage.login(config.get("username"), config.get("userpassword"));
+		loginPage.login(config.get("app.username"), config.get("app.password"));
 		try {
-			Thread.sleep(2000);
+			WaitUtils.waitForUrl("inventory.html");
 		} catch(Exception e) {
 			
 		}
@@ -119,8 +126,8 @@ public class LoginTest extends BaseTest{
         // Action — login with WRONG credentials
         loginPage.login("wrong_user", "wrong_password");
 
-        // Wait for error to appear
-        try { Thread.sleep(1000); } catch (Exception e) {}
+//        // Wait for error to appear
+//        try { Thread.sleep(1000); } catch (Exception e) {}
 
         // Assert — error message should be showing
         Assert.assertTrue(
@@ -155,8 +162,8 @@ public class LoginTest extends BaseTest{
         // Action — login with empty username
         loginPage.login("", "secret_sauce");
 
-        // Wait for error
-        try { Thread.sleep(1000); } catch (Exception e) {}
+//        // Wait for error
+//        try { Thread.sleep(1000); } catch (Exception e) {}
 
         // Assert — error should appear
         Assert.assertTrue(
@@ -191,7 +198,7 @@ public class LoginTest extends BaseTest{
         loginPage.login("standard_user", "");
 
         // Wait for error
-        try { Thread.sleep(1000); } catch (Exception e) {}
+//        try { Thread.sleep(1000); } catch (Exception e) {}
 
         // Assert — error should appear
         Assert.assertTrue(

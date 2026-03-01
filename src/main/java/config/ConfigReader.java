@@ -104,6 +104,14 @@ public class ConfigReader {
 			return Boolean.parseBoolean(get(key));
 		}
 		
+		public String getOrDefault(
+		        String key, String defaultValue) {
+		    try {
+		        return get(key);
+		    } catch (RuntimeException e) {
+		        return defaultValue;
+		    }
+		}
 	}
 
 

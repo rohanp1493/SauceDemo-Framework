@@ -7,6 +7,8 @@ import org.openqa.selenium.JavascriptException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import utils.WaitUtils;
+
 public class InventoryPage {
 	
 	//Initialize WebDriver driver
@@ -40,7 +42,7 @@ public class InventoryPage {
 	//Check if Inventory page is loaded
 	public boolean isPageLoaded() {
 		try {
-			return driver.findElement(pageTitle).isDisplayed();
+			return WaitUtils.isDisplayed(pageTitle);
 		} catch(Exception e) {
 			return false;
 		}
@@ -48,17 +50,19 @@ public class InventoryPage {
 	
 	//Verify the Page title
 	public String getPageTitle() {
-		return driver.findElement(pageTitle).getText();
+		return WaitUtils.waitForVisible(pageTitle).getText();
 	}
 	
 	//Count how many products are present on page
 	public int getProductCount() {
+		WaitUtils.waitForVisible(productNames);
 		List<WebElement> products =  driver.findElements(productNames);
 		return products.size();
 	}
 	
 	//Get Name of the first product
 	public String getFirstProductName() {
+		WaitUtils.waitForVisible(productNames);
 		List<WebElement> products = driver.findElements(productNames);
 		return products.get(0).getText();
 		
@@ -77,7 +81,7 @@ public class InventoryPage {
 		try {
 			String count = driver.findElement(shoppingCart).getText();
 			System.out.println(count);
-			return driver.findElement(shoppingCart).getText();
+			return WaitUtils.waitForVisible(addCartButtons, 5).getText();
 		} catch(Exception e) {
 			return "0";
 		}
@@ -85,7 +89,7 @@ public class InventoryPage {
 	
 	//Click on Shopping Cart
 	public void clickCart() {
-		driver.findElement(shoppingCart).click();
+		WaitUtils.waitForVisible(addCartButtons).click();
 		System.out.println("Clicked on Cart icon");
 	}
 	
@@ -116,9 +120,7 @@ public class InventoryPage {
 	    System.out.println("Opened menu");
 
 	    // Wait for menu animation to complete
-	    try { Thread.sleep(1000); } catch (Exception e) {}
-
-	    driver.findElement(logoutButton).click();
+	    try { WaitUtils.WaitForElementClickable(logoutButton).click(); } catch (Exception e) {}
 	    System.out.println("Clicked logout");
 	}
 	

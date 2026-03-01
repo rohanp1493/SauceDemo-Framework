@@ -3,6 +3,8 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import utils.WaitUtils;
+
 public class LoginPage {
 	
 	//Initialize the Webdriver
@@ -28,6 +30,7 @@ public class LoginPage {
 	
 	//Enter username in username field
 	public void enterUsername(String username) {
+		WaitUtils.waitForVisible(userName);
 		driver.findElement(userName).clear();
 		driver.findElement(userName).sendKeys(username);
 		System.out.println("Entered Username: "+ username);
@@ -35,6 +38,7 @@ public class LoginPage {
 	
 	//Enter password in password field
 	public void enterPassword(String password) {
+		WaitUtils.waitForVisible(userPassword);
 		driver.findElement(userPassword).clear();
 		driver.findElement(userPassword).sendKeys(password);
 		System.out.println("Entered password: "+ password);
@@ -42,6 +46,7 @@ public class LoginPage {
 	
 	//Click on Login Button
 	public void clickLogin() {
+		WaitUtils.waitForVisible(loginButton);
 		driver.findElement(loginButton).click();
 		System.out.println("Clicked Login Button");
 	}
@@ -49,6 +54,9 @@ public class LoginPage {
 	
 	//Perform in single option
 	public void login(String username, String password) {
+		WaitUtils.waitForVisible(userName);
+		WaitUtils.waitForVisible(userPassword);
+		WaitUtils.WaitForElementClickable(loginButton);
 		enterUsername(username);
 		enterPassword(password);
 		clickLogin();
@@ -57,7 +65,7 @@ public class LoginPage {
 	//Error Verification
 	public boolean isErrorDisplayed() {
 		try {
-			return driver.findElement(errorMessage).isDisplayed();
+			return WaitUtils.isDisplayed(errorMessage);
 		} catch(Exception e) {
 			return false;
 		}
@@ -72,7 +80,7 @@ public class LoginPage {
 	
 	public String getErrorMessage() {
 	    try {
-	        return driver.findElement(errorMessage).getText();
+	        return WaitUtils.waitForVisible(errorMessage).getText();
 	    } catch (Exception e) {
 	        System.out.println("Could not find error message: "
 	            + e.getMessage());
