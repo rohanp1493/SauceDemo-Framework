@@ -48,9 +48,9 @@ jobs:
       # Step 5 — Run your tests!
       # headless=true because server has no screen
       - name: Run Selenium Tests
-        run: mvn clean test -Dheadless=true
-		env:
-		   AI_API_KEY: ${{ secrets.AI_API_KEY }}
+       	run: mvn clean test -Dheadless=true
+        env:
+			AI_API_KEY: ${{ secrets.AI_API_KEY }}
 
       # Step 6 — Upload Allure results
       # Even if tests fail — still upload results
