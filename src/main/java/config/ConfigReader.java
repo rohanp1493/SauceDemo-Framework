@@ -61,7 +61,11 @@ public class ConfigReader {
 		//Create a method to access Config Reader
 		public static ConfigReader getInstance() {
 			if(instance==null) {
-				instance = new ConfigReader();
+				synchronized(ConfigReader.class) {
+					if(instance==null) {
+						instance = new ConfigReader();
+					}
+				}			
 			}
 			return instance;
 		}

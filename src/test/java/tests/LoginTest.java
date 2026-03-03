@@ -33,9 +33,19 @@ import utils.WaitUtils;
 public class LoginTest extends BaseTest{
 	
 	WebDriver driver;
-	LoginPage loginPage;
-	InventoryPage inventoryPage;
+	private ThreadLocal<LoginPage> loginPageTL =
+	        new ThreadLocal<>();
+	    private ThreadLocal<InventoryPage> inventoryPageTL =
+	        new ThreadLocal<>();
 	ConfigReader config;
+	
+	// Helper methods to get page objects
+    private LoginPage loginPage() {
+        return loginPageTL.get();
+    }
+    private InventoryPage inventoryPage() {
+        return inventoryPageTL.get();
+    }
 	
 	//Initialize the Browser
 	@BeforeMethod
@@ -67,11 +77,23 @@ public class LoginTest extends BaseTest{
 		
 		
 		// Create page objects
-        loginPage     = new LoginPage(driver);
-        inventoryPage = new InventoryPage(driver);
+        //=loginPage     = new LoginPage(driver);
+        //inventoryPage = new InventoryPage(driver);
+		
+		// Store page objects in ThreadLocal
+	    loginPageTL.set(new LoginPage(driver));
+	    inventoryPageTL.set(new InventoryPage(driver));
 
         // Open login page
-        loginPage.navigateApp(config.get("base.url"));
+        loginPage().navigateApp(config.get("base.url"));
+        
+     // Wait for page to be ready
+        utils.WaitUtils.waitForVisible(
+            org.openqa.selenium.By.id("login-button"));
+
+        System.out.println(
+            Thread.currentThread().getName()
+            + " → Login page ready");
 
 	}
 	
@@ -97,7 +119,7 @@ public class LoginTest extends BaseTest{
 		    System.out.println("URL: " 
 		        + config.get("base.url"));*/
 		
-		loginPage.login(config.get("app.username"), config.get("app.password"));
+		loginPage().login(config.get("app.username"), config.get("app.password"));
 		try {
 			WaitUtils.waitForUrl("inventory.html");
 		} catch(Exception e) {
@@ -105,8 +127,8 @@ public class LoginTest extends BaseTest{
 		}
 		
 		//Assertion
-		Assert.assertTrue(inventoryPage.isPageLoaded(),"Products page should be visible after login");
-		Assert.assertEquals(inventoryPage.getPageTitle(), "Products", "Page title should be Products");
+		Assert.assertTrue(inventoryPage().isPageLoaded(),"Products page should be visible after login");
+		Assert.assertEquals(inventoryPage().getPageTitle(), "Products", "Page title should be Products");
 		
 		System.out.println("PASS: validLoginTest");
 		
@@ -124,19 +146,19 @@ public class LoginTest extends BaseTest{
         System.out.println("Running: invalidLoginTest");
 
         // Action — login with WRONG credentials
-        loginPage.login("wrong_user", "wrong_password");
+        loginPage().login("wrong_user", "wrong_password");
 
 //        // Wait for error to appear
 //        try { Thread.sleep(1000); } catch (Exception e) {}
 
         // Assert — error message should be showing
         Assert.assertTrue(
-            loginPage.isErrorDisplayed(),
+            loginPage().isErrorDisplayed(),
             "Error message should appear for wrong credentials"
         );
 
         // Assert — check error message text
-        String errorText = loginPage.getErrorMessage();
+        String errorText = loginPage().getErrorMessage();
         System.out.println("Error message: " + errorText);
 
         Assert.assertTrue(
@@ -160,18 +182,18 @@ public class LoginTest extends BaseTest{
         System.out.println("Running: emptyUsernameTest");
 
         // Action — login with empty username
-        loginPage.login("", "secret_sauce");
+        loginPage().login("", "secret_sauce");
 
 //        // Wait for error
 //        try { Thread.sleep(1000); } catch (Exception e) {}
 
         // Assert — error should appear
         Assert.assertTrue(
-            loginPage.isErrorDisplayed(),
+            loginPage().isErrorDisplayed(),
             "Error should appear when username is empty"
         );
 
-        String errorText = loginPage.getErrorMessage();
+        String errorText = loginPage().getErrorMessage();
         System.out.println("Error message: " + errorText);
 
         Assert.assertTrue(
@@ -195,18 +217,18 @@ public class LoginTest extends BaseTest{
         System.out.println("Running: emptyPasswordTest");
 
         // Action — login with empty password
-        loginPage.login("standard_user", "");
+        loginPage().login("standard_user", "");
 
         // Wait for error
 //        try { Thread.sleep(1000); } catch (Exception e) {}
 
         // Assert — error should appear
         Assert.assertTrue(
-            loginPage.isErrorDisplayed(),
+            loginPage().isErrorDisplayed(),
             "Error should appear when password is empty"
         );
 
-        String errorText = loginPage.getErrorMessage();
+        String errorText = loginPage().getErrorMessage();
         System.out.println("Error message: " + errorText);
 
         Assert.assertTrue(

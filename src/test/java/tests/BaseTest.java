@@ -19,53 +19,43 @@ public class BaseTest {
 		System.out.println("Browser Opend");
 	}
 	
-	@AfterMethod
+	@AfterMethod(alwaysRun = true)
 	public void tearDown(ITestResult result) {
 
-        if (result.getStatus()
-                == ITestResult.FAILURE) {
+	    // Print result for debugging
+	    System.out.println(
+	        "Test: " + result.getName()
+	        + " | Status: "
+	        + getStatusName(result.getStatus()));
 
-            System.out.println("Test FAILED: "
-                + result.getName());
+	    if (result.getThrowable() != null) {
+	        System.out.println(
+	            "Reason: "
+	            + result.getThrowable()
+	                .getMessage());
+	    }
 
-            // Take screenshot
-            takeScreenshot();
+	    if (result.getStatus()
+	            == ITestResult.FAILURE) {
+	        takeScreenshot();
+	        attachAIAnalysis(
+	            AIHelper.analyzeFailure(
+	                result.getName(),
+	                result.getThrowable()
+	                    .getMessage(), ""));
+	    }
 
-            // Get error details
-            String testName = result.getName();
-            String errorMsg = result
-                .getThrowable()
-                .getMessage();
+	    DriverFactory.quitDriver();
+	}
 
-            // Get page HTML at time of failure
-            String pageSource = "";
-            try {
-                pageSource = DriverFactory
-                    .getDriver()
-                    .getPageSource();
-            } catch (Exception e) {
-                pageSource = "Could not get page source";
-            }
-
-            // Ask Claude to analyze the failure
-            System.out.println(
-                "Asking AI to analyze failure...");
-            String aiAnalysis =
-                AIHelper.analyzeFailure(
-                    testName,
-                    errorMsg,
-                    pageSource);
-
-            System.out.println(
-                "AI Analysis: " + aiAnalysis);
-
-            // Attach AI analysis to Allure report
-            attachAIAnalysis(aiAnalysis);
-        }
-
-        // Always close browser
-        DriverFactory.quitDriver();
-    }
+	private String getStatusName(int status) {
+	    switch (status) {
+	        case ITestResult.SUCCESS: return "PASS";
+	        case ITestResult.FAILURE: return "FAIL";
+	        case ITestResult.SKIP:    return "SKIP";
+	        default: return "UNKNOWN";
+	    }
+	}
 		
 			
 	//Take screenshot method
