@@ -49,7 +49,7 @@ selenium-java-framework/
  
 ```bash
 # Clone the repo
-git clone https://github.com/[patilrohan-qa]/selenium-java-framework.git
+git clone https://github.com/rohanp1493/SauceDemo-Framework.git
  
 # Run all tests
 mvn clean test
